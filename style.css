@@ -1,1 +1,1135 @@
 :root{color-scheme:dark;font-family:system-ui,-apple-system,sans-serif;background:#15171c;color:#f7f8fa;--green:#a3e635}*{box-sizing:border-box}body{margin:0}main{max-width:520px;margin:auto;padding:24px 18px 40px}header{display:flex;align-items:center;gap:10px;margin-bottom:26px}header span{font-size:26px}h1{font-size:22px;flex:1}h2{font-size:18px;margin:0 0 12px}p{color:#a8adb8;margin:8px 0 15px}article{background:#24272e;border:1px solid #343841;border-radius:18px;padding:20px;margin-bottom:14px}button,input{font:inherit;border-radius:12px}button{cursor:pointer;border:0;color:inherit;background:#343841;padding:12px}button:disabled{opacity:.45;cursor:default}button:focus-visible,input:focus-visible{outline:2px solid var(--green);outline-offset:3px}.primary{background:var(--green);color:#15171c;font-weight:750;width:100%;padding:16px}.small{font-size:13px}#home{text-align:center}#home .small{margin-top:10px}.big{display:block;font-size:86px;line-height:1.15;letter-spacing:-5px;margin:6px 0 24px;color:var(--green);font-variant-numeric:tabular-nums}.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}.tiles strong{font-size:34px}label{display:block;margin:16px 0;color:#c7cad1}input{display:block;width:100%;margin-top:8px;background:#15171c;border:1px solid #444955;color:white;padding:14px}nav{display:flex;gap:8px}nav button{flex:1;font-size:13px}nav button.active{color:var(--green)}.chart{height:150px;display:flex;gap:10px;align-items:stretch}.day{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px;min-width:0;font-size:12px;color:#a8adb8}.bar{width:100%;max-width:40px;background:var(--green);border-radius:5px 5px 2px 2px;min-height:2px}ul{padding:0;list-style:none}li{padding:12px 0;border-bottom:1px solid #343841}#status{font-size:14px;overflow-wrap:anywhere}[hidden]{display:none!important}
+
+
+/* V2.2 - Persoonlijke begroeting */
+
+.welcome {
+    margin-bottom: 20px;
+}
+
+.welcome h2 {
+    font-size: 24px;
+    margin: 0 0 6px;
+    overflow-wrap: anywhere;
+}
+
+.welcome p {
+    font-size: 14px;
+    margin: 0;
+    color: #a8adb8;
+}
+
+#profile {
+    font-size: 17px;
+    padding: 10px 12px;
+}
+
+#profilePanel {
+    border-color: #a3e635;
+}
+
+#closeProfile {
+    width: 100%;
+    margin-top: 10px;
+}
+
+#profileForm input {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 400px) {
+    header {
+        gap: 7px;
+    }
+
+    header h1 {
+        font-size: 18px;
+    }
+
+    .welcome h2 {
+        font-size: 22px;
+    }
+}
+
+
+/* V2.3 - Locatie en steden */
+
+#locationPanel {
+    text-align: left;
+}
+
+#locationPanel h2 {
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+#cityInput {
+    margin-bottom: 12px;
+}
+
+.locationButtons {
+    display: flex;
+    gap: 8px;
+}
+
+.locationButtons button {
+    flex: 1;
+}
+
+#detectCity {
+    color: var(--green);
+}
+
+#locationStatus {
+    font-size: 12px;
+    margin: 12px 0 0;
+}
+
+#currentCity {
+    color: var(--green);
+    font-size: 14px;
+    margin-bottom: 16px;
+    overflow-wrap: anywhere;
+}
+
+.cityItem {
+    margin: 18px 0;
+}
+
+.cityHeading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.cityHeading span {
+    overflow-wrap: anywhere;
+    min-width: 0;
+}
+
+.cityHeading strong {
+    color: var(--green);
+    font-size: 17px;
+}
+
+.cityTrack {
+    width: 100%;
+    height: 9px;
+    background: #343841;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.cityBar {
+    height: 100%;
+    background: var(--green);
+    border-radius: 8px;
+    transition: width 0.3s ease;
+}
+
+.historyCity {
+    color: #a8adb8;
+    font-size: 13px;
+    margin-top: 6px;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 360px) {
+    .locationButtons {
+        flex-direction: column;
+    }
+}
+
+/* V2.4 - Uitgebreide statistieken */
+
+.sectionTitle {
+    font-size: 22px;
+    margin-bottom: 18px;
+}
+
+.extendedTiles {
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.extendedTiles article {
+    margin-bottom: 0;
+    min-width: 0;
+}
+
+.extendedTiles p {
+    font-size: 13px;
+    min-height: 34px;
+    margin: 0 0 8px;
+}
+
+.extendedTiles strong {
+    font-size: 30px;
+    color: var(--green);
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+}
+
+.statRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid #343841;
+    font-size: 14px;
+}
+
+.statRow:last-child {
+    border-bottom: none;
+}
+
+.statRow span {
+    color: #c7cad1;
+}
+
+.statRow strong {
+    color: var(--green);
+    text-align: right;
+    max-width: 50%;
+    overflow-wrap: anywhere;
+    font-variant-numeric: tabular-nums;
+}
+
+.weekdayItem {
+    margin: 17px 0;
+}
+
+.weekdayItem:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 380px) {
+    .extendedTiles strong {
+        font-size: 25px;
+    }
+
+    .extendedTiles article {
+        padding: 16px;
+    }
+
+    .statRow {
+        font-size: 13px;
+    }
+}
+
+/* V2.5 - Vergelijkingspagina */
+
+:root {
+    --purple: #c084fc;
+}
+
+.compareHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.compareHeader h2 {
+    font-size: 21px;
+    margin: 0;
+}
+
+#compareSettings {
+    font-size: 18px;
+}
+
+#compareSettingsPanel {
+    border-color: var(--green);
+}
+
+#closeCompareSettings {
+    width: 100%;
+    margin-top: 10px;
+}
+
+#compareStatus {
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+#compareStatus:empty {
+    display: none;
+}
+
+.comparePlayers {
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.comparePlayers article {
+    text-align: center;
+    min-width: 0;
+    margin-bottom: 0;
+    padding: 18px 12px;
+}
+
+.comparePlayers h2 {
+    font-size: 17px;
+    margin: 10px 0;
+    overflow-wrap: anywhere;
+}
+
+.comparePlayers strong {
+    display: block;
+    font-size: 40px;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+}
+
+.comparePlayers p {
+    font-size: 13px;
+    margin: 8px 0 0;
+}
+
+.playerIcon {
+    font-size: 26px;
+}
+
+.selfPlayer {
+    border-color: var(--green);
+}
+
+.opponentPlayer {
+    border-color: var(--purple);
+}
+
+.selfPlayer strong,
+#selfLegend,
+#selfCityLegend,
+.selfValue {
+    color: var(--green);
+}
+
+.opponentPlayer strong,
+#opponentLegend,
+#opponentCityLegend,
+.opponentValue {
+    color: var(--purple);
+}
+
+.compareLegend {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 18px 0;
+    font-size: 14px;
+}
+
+.compareLegend strong {
+    max-width: 48%;
+    overflow-wrap: anywhere;
+}
+
+.compareLegend strong:last-child {
+    text-align: right;
+}
+
+.comparisonItem {
+    margin: 20px 0;
+}
+
+.comparisonHeading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr)
+                           minmax(0, 2.5fr)
+                           minmax(0, 1fr);
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 9px;
+}
+
+.comparisonLabel {
+    color: #c7cad1;
+    font-size: 13px;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.selfValue,
+.opponentValue {
+    font-size: 15px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+}
+
+.opponentValue {
+    text-align: right;
+}
+
+.comparisonWinner {
+    font-weight: 800;
+    font-size: 17px;
+}
+
+.comparisonTrack {
+    display: flex;
+    width: 100%;
+    height: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #343841;
+}
+
+.selfBar {
+    background: var(--green);
+    height: 100%;
+}
+
+.opponentBar {
+    background: var(--purple);
+    height: 100%;
+}
+
+.combinedTotal {
+    text-align: center;
+}
+
+.combinedTotal strong {
+    font-size: 46px;
+    font-variant-numeric: tabular-nums;
+}
+
+.combinedTotal p {
+    margin: 8px 0;
+}
+
+#refreshComparison {
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+nav button {
+    min-width: 0;
+    padding: 12px 4px;
+}
+
+@media (max-width: 420px) {
+
+    nav {
+        gap: 5px;
+    }
+
+    nav button {
+        font-size: 11px;
+    }
+
+    .compareHeader h2 {
+        font-size: 18px;
+    }
+
+    .comparePlayers strong {
+        font-size: 34px;
+    }
+
+    .comparisonLabel {
+        font-size: 12px;
+    }
+}
+
+/* V2.6A - Achievements */
+
+.achievementSummary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #a8adb8;
+    margin: 18px 0 10px;
+}
+
+#achievementCount {
+    color: var(--green);
+    white-space: nowrap;
+}
+
+.achievementProgress {
+    height: 9px;
+    background: #343841;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+#achievementProgressBar {
+    height: 100%;
+    width: 0;
+    background: var(--green);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.achievementFilters {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.achievementFilters button {
+    flex: 1;
+    min-width: 0;
+    padding: 10px 4px;
+    font-size: 12px;
+}
+
+.achievementFilters button.active {
+    background: var(--green);
+    color: #15171c;
+    font-weight: 700;
+}
+
+.achievementGrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.achievementCard {
+    background: #1c1e24;
+    border: 1px solid #343841;
+    border-radius: 14px;
+    padding: 13px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.achievementCard.unlocked {
+    border-color: var(--green);
+    background: rgba(163, 230, 53, 0.06);
+}
+
+.achievementHeading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.achievementIcon {
+    font-size: 28px;
+}
+
+.achievementCard.locked .achievementIcon {
+    filter: grayscale(1);
+    opacity: 0.55;
+}
+
+.achievementCard h3 {
+    font-size: 14px;
+    margin: 0 0 7px;
+    overflow-wrap: anywhere;
+}
+
+.achievementCard p {
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0 0 14px;
+    flex: 1;
+}
+
+.achievementTrack {
+    height: 6px;
+    background: #343841;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.achievementBar {
+    height: 100%;
+    background: #777d87;
+    border-radius: 8px;
+    transition: width 0.3s ease;
+}
+
+.achievementCard.unlocked .achievementBar {
+    background: var(--green);
+}
+
+.achievementLabel {
+    font-size: 11px;
+    color: #a8adb8;
+}
+
+.achievementCard.unlocked .achievementLabel,
+.achievementCard.unlocked .achievementHeading {
+    color: var(--green);
+}
+
+@media (max-width: 380px) {
+
+    .achievementCard {
+        padding: 10px;
+    }
+
+    .achievementCard h3 {
+        font-size: 13px;
+    }
+
+    .achievementFilters button {
+        font-size: 11px;
+    }
+}
+
+/* V2.6A - Navigatie met vijf tabbladen */
+
+nav {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 5px;
+}
+
+nav button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-width: 0;
+    font-size: 10px;
+    padding: 12px 2px;
+}
+
+nav button span {
+    font-size: 18px;
+    line-height: 1.2;
+}
+
+nav button.active {
+    color: var(--green);
+    background: #3b4430;
+}
+
+@media (max-width: 380px) {
+    nav {
+        gap: 3px;
+    }
+
+    nav button {
+        font-size: 9px;
+    }
+
+    nav button span {
+        font-size: 16px;
+    }
+}
+
+/* V2.6B - Streaks */
+
+:root {
+    --orange: #fb923c;
+}
+
+#streakPanel {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #343841;
+}
+
+.streakTiles {
+    margin-top: 16px;
+    margin-bottom: 14px;
+    gap: 10px;
+}
+
+.streakCard {
+    background: #1c1e24;
+    border: 1px solid #343841;
+    border-radius: 15px;
+    padding: 15px 8px;
+    text-align: center;
+    min-width: 0;
+}
+
+.currentStreakCard {
+    border-color: var(--orange);
+}
+
+.longestStreakCard {
+    border-color: var(--green);
+}
+
+.streakCard p {
+    font-size: 12px;
+    margin: 8px 0;
+}
+
+.streakIcon {
+    display: block;
+    font-size: 29px;
+    margin: 10px 0;
+}
+
+.streakCard strong {
+    display: block;
+    font-size: 42px;
+    font-variant-numeric: tabular-nums;
+}
+
+.currentStreakCard strong {
+    color: var(--orange);
+}
+
+.longestStreakCard strong {
+    color: var(--green);
+}
+
+.streakWeekPanel,
+#streakMilestonePanel {
+    background: #1c1e24;
+    border: 1px solid #343841;
+    border-radius: 14px;
+    padding: 15px;
+    margin-top: 12px;
+}
+
+.streakWeekPanel h3,
+#streakMilestonePanel h3 {
+    font-size: 15px;
+    margin: 0 0 16px;
+}
+
+#streakWeek {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 5px;
+}
+
+.streakDay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+}
+
+.streakDay span {
+    color: #a8adb8;
+    font-size: 11px;
+}
+
+.streakCircle {
+    width: 100%;
+    max-width: 38px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #343841;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    color: #777d87;
+    font-size: 18px;
+}
+
+.streakCircle.completed {
+    background: rgba(251,146,60,0.15);
+    color: var(--orange);
+}
+
+.streakCircle.streakToday {
+    border-color: var(--orange);
+}
+
+#streakStatus {
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--orange);
+    margin: 18px 0 0;
+}
+
+.streakMilestoneHeading {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 12px;
+}
+
+#streakMilestoneCount {
+    color: var(--orange);
+    white-space: nowrap;
+}
+
+.streakMilestoneTrack {
+    height: 8px;
+    background: #343841;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+
+#streakMilestoneBar {
+    height: 100%;
+    width: 0;
+    background: var(--orange);
+    border-radius: 8px;
+    transition: width 0.3s ease;
+}
+
+#streakMilestoneMessage {
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 12px 0 0;
+}
+
+@media (max-width: 380px) {
+
+    .streakCard strong {
+        font-size: 34px;
+    }
+
+    .streakCircle {
+        font-size: 14px;
+    }
+
+    .streakWeekPanel {
+        padding: 10px;
+    }
+}
+
+/* V2.6C - Kalender */
+
+#calendarPanel {
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #343841;
+}
+
+.calendarHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin: 18px 0 12px;
+}
+
+.calendarHeader h3 {
+    margin: 0;
+    font-size: 17px;
+    text-transform: capitalize;
+    text-align: center;
+}
+
+#calendarToday {
+    display: block;
+    margin: 0 auto 20px;
+    font-size: 11px;
+}
+
+.calendarWeekdays,
+#calendarGrid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 5px;
+}
+
+.calendarWeekdays {
+    margin-bottom: 8px;
+}
+
+.calendarWeekdays span {
+    text-align: center;
+    font-size: 11px;
+    color: #a8adb8;
+}
+
+.calendarDay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-width: 0;
+    min-height: 48px;
+    padding: 7px 2px;
+    border: 1px solid #343841;
+    border-radius: 8px;
+}
+
+.calendarDayNumber {
+    font-size: 11px;
+}
+
+.calendarDayCount {
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+}
+
+.level0 {
+    background: #1c1e24;
+    color: #a8adb8;
+}
+
+.level1 {
+    background: rgba(163,230,53,0.15);
+}
+
+.level2 {
+    background: rgba(163,230,53,0.30);
+}
+
+.level3 {
+    background: rgba(163,230,53,0.45);
+}
+
+.level4 {
+    background: rgba(163,230,53,0.65);
+}
+
+.calendarDay:not(.level0) {
+    color: #f7f8fa;
+}
+
+.calendarDay.calendarCurrentDay {
+    border-color: var(--green);
+}
+
+.calendarDay.calendarSelected {
+    outline: 2px solid var(--green);
+    outline-offset: 1px;
+}
+
+.calendarLegend {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 18px 0;
+    font-size: 10px;
+    color: #a8adb8;
+}
+
+.calendarColor {
+    display: block;
+    width: 13px;
+    height: 13px;
+    border-radius: 3px;
+    border: 1px solid #343841;
+}
+
+.calendarTiles {
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.calendarStat {
+    background: #1c1e24;
+    border: 1px solid #343841;
+    border-radius: 12px;
+    padding: 14px;
+    min-width: 0;
+}
+
+.calendarStat p {
+    font-size: 12px;
+    margin: 0 0 8px;
+}
+
+.calendarStat strong {
+    display: block;
+    font-size: 28px;
+    color: var(--green);
+    font-variant-numeric: tabular-nums;
+}
+
+.calendarRecord {
+    margin-top: 10px;
+}
+
+#calendarDetails {
+    background: #1c1e24;
+    border: 1px solid #343841;
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 16px;
+}
+
+#calendarSelectedDate {
+    margin: 0 0 10px;
+    font-size: 15px;
+}
+
+#calendarSelectedCount {
+    color: var(--green);
+    font-size: 23px;
+}
+
+.calendarEntry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid #343841;
+    font-size: 12px;
+}
+
+.calendarEntry:last-child {
+    border-bottom: none;
+}
+
+.calendarEntry span:last-child {
+    color: #a8adb8;
+    text-align: right;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 380px) {
+
+    .calendarWeekdays,
+    #calendarGrid {
+        gap: 3px;
+    }
+
+    .calendarDay {
+        min-height: 42px;
+    }
+
+    .calendarDayCount {
+        font-size: 11px;
+    }
+
+    .calendarStat strong {
+        font-size: 24px;
+    }
+
+    .calendarHeader h3 {
+        font-size: 15px;
+    }
+}
+
+/* V2.6D - Stedenkaart */
+
+#cityMapPanel {
+    overflow: hidden;
+}
+
+#cityMap {
+    width: 100%;
+    height: 340px;
+    margin: 16px 0;
+    border: 1px solid #444955;
+    border-radius: 14px;
+    background: #1c1e24;
+    z-index: 0;
+    color-scheme: light;
+}
+
+#loadCityMap {
+    width: 100%;
+    color: var(--green);
+    margin-bottom: 10px;
+}
+
+#cityMapStatus {
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+#cityMapStatus:empty {
+    display: none;
+}
+
+.fatbikeMapMarker {
+    background: var(--green);
+    color: #15171c;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.fatbikeMapMarker span {
+    line-height: 1;
+}
+
+.mapPopup {
+    text-align: center;
+    color: #15171c;
+    min-width: 100px;
+}
+
+.mapPopup strong {
+    font-size: 16px;
+}
+
+.mapPopup p {
+    color: #555b65;
+    margin: 8px 0 0;
+    font-size: 12px;
+}
+
+.mapTiles {
+    gap: 10px;
+    margin-top: 16px;
+}
+
+.mapStat {
+    background: #1c1e24;
+    border: 1px solid #343841;
+    border-radius: 12px;
+    padding: 14px;
+    min-width: 0;
+}
+
+.mapStat p {
+    font-size: 12px;
+    margin: 0 0 8px;
+}
+
+.mapStat strong {
+    display: block;
+    font-size: 28px;
+    color: var(--green);
+    font-variant-numeric: tabular-nums;
+}
+
+#resetMapView {
+    width: 100%;
+    margin-top: 14px;
+}
+
+.mapPrivacy {
+    font-size: 11px;
+    line-height: 1.5;
+    margin: 14px 0 0;
+}
+
+#cityMap .leaflet-control-attribution {
+    font-size: 9px;
+}
+
+@media (max-width: 380px) {
+
+    #cityMap {
+        height: 280px;
+    }
+
+    .mapStat {
+        padding: 10px;
+    }
+
+    .mapStat strong {
+        font-size: 24px;
+    }
+}

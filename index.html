@@ -1,1 +1,629 @@
-<!doctype html><html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#15171c"><title>Fatbike Tracker</title><link rel="stylesheet" href="style.css"><script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script defer src="app.js"></script></head><body><main><header><span>🚲</span><h1>Fatbike Tracker</h1><button id="logout" class="small" hidden>Uitloggen</button></header><section id="login"><article><h2>Welkom terug</h2><p>Log in om jouw fatbikes bij te houden.</p><form id="loginForm"><label>E-mailadres<input id="email" type="email" autocomplete="username" required></label><label>Wachtwoord<input id="password" type="password" autocomplete="current-password" required></label><button class="primary">Inloggen</button></form></article></section><section id="dashboard" hidden><article id="home"><p>Vandaag gespot</p><strong class="big" id="today">0</strong><button class="primary" id="add" disabled>＋ Fatbike toevoegen</button><button class="small" id="undo" disabled>− Laatste registratie verwijderen</button></article><div class="tiles"><article><p>Deze week</p><strong id="week">0</strong></article><article><p>All-time</p><strong id="total">0</strong></article></div><article id="stats"><h2>Afgelopen 7 dagen</h2><div id="chart" class="chart"></div><p id="record"></p></article><article id="history" hidden><h2>Recente registraties</h2><ul id="entries"></ul><button id="more" class="small" hidden>Meer tonen</button></article><nav><button data-tab="home">⌂ Home</button><button data-tab="stats">▥ Statistieken</button><button data-tab="history">◷ Historie</button></nav></section><p id="status" role="status" aria-live="polite"></p></main></body></html>
+
+<!doctype html>
+<html lang="nl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#15171c">
+    <title>Fatbike Tracker</title>
+    
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="style.css">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <main>
+        <header>
+            <span>🚲</span>
+            <h1>Fatbike Tracker</h1>
+            <button id="profile" class="small" aria-label="Mijn profiel" hidden>👤</button>
+            <button id="logout" class="small" hidden>Uitloggen</button>
+        </header>
+
+        <!-- Inlogpagina -->
+        <section id="login">
+            <article>
+                <h2>Welkom terug</h2>
+                <p>Log in om jouw fatbikes bij te houden.</p>
+
+                <form id="loginForm">
+                    <label>E-mailadres
+                        <input id="email" type="email" autocomplete="username" required>
+                    </label>
+
+                    <label>Wachtwoord
+                        <input id="password" type="password" autocomplete="current-password" required>
+                    </label>
+
+                    <button class="primary">Inloggen</button>
+                </form>
+            </article>
+        </section>
+
+        <section id="dashboard" hidden>
+
+            <!-- Persoonlijke begroeting -->
+            <div id="welcome" class="welcome">
+                <h2 id="greeting">Welkom terug!</h2>
+                <p>Hoeveel fatbikes kom jij vandaag tegen?</p>
+            </div>
+
+            <!-- Profielinstellingen -->
+            <article id="profilePanel" hidden>
+                <h2>Mijn profiel</h2>
+
+                <form id="profileForm">
+                    <label>Weergavenaam
+                        <input id="displayName" type="text" maxlength="40" placeholder="Jouw naam" required>
+                    </label>
+
+                    <button id="saveProfile" class="primary">Naam opslaan</button>
+                    <button id="closeProfile" type="button" class="small">Sluiten</button>
+                </form>
+            </article>
+
+            <!-- Homepagina -->
+            <section id="home">
+
+                <article id="locationPanel">
+                    <h2>📍 Huidige stad</h2>
+
+                    <input id="cityInput"
+                           type="text"
+                           maxlength="80"
+                           aria-label="Huidige stad"
+                           placeholder="Bijvoorbeeld Lelystad">
+
+                    <div class="locationButtons">
+                        <button id="saveCity" class="small">Stad opslaan</button>
+                        <button id="detectCity" class="small">📍 Mijn locatie</button>
+                    </div>
+
+                    <p id="locationStatus" aria-live="polite">
+                        Kies een stad of gebruik je locatie.
+                    </p>
+                </article>
+
+                <article>
+                    <p>Vandaag gespot</p>
+                    <strong class="big" id="today">0</strong>
+
+                    <p id="currentCity">Registreren in: Onbekend</p>
+
+                    <button class="primary" id="add" disabled>
+                        ＋ Fatbike toevoegen
+                    </button>
+
+                    <button class="small" id="undo" disabled>
+                        − Laatste registratie verwijderen
+                    </button>
+                </article>
+
+            </section>
+
+            <!-- Uitgebreide statistiekenpagina -->
+            <section id="stats" hidden>
+
+                <h2 class="sectionTitle">📊 Jouw statistieken</h2>
+
+                <div class="tiles extendedTiles">
+
+                    <article>
+                        <p>Vandaag</p>
+                        <strong id="statsToday">0</strong>
+                    </article>
+
+                    <article>
+                        <p>Deze week</p>
+                        <strong id="week">0</strong>
+                    </article>
+
+                    <article>
+                        <p>Deze maand</p>
+                        <strong id="month">0</strong>
+                    </article>
+
+                    <article>
+                        <p>Dit jaar</p>
+                        <strong id="year">0</strong>
+                    </article>
+
+                    <article>
+                        <p>All-time</p>
+                        <strong id="total">0</strong>
+                    </article>
+
+                    <article>
+                        <p>Verschillende steden</p>
+                        <strong id="statsCityCount">0</strong>
+                    </article>
+
+                </div>
+
+                <!-- Persoonlijke records -->
+                <article>
+                    <h2>🏆 Persoonlijke records</h2>
+
+                    <div class="statRow">
+                        <span>Hoogste dagrecord</span>
+                        <strong id="dayRecord">0</strong>
+                    </div>
+
+                    <div class="statRow">
+                        <span>Hoogste weekrecord</span>
+                        <strong id="weekRecord">0</strong>
+                    </div>
+
+                    <div class="statRow">
+                        <span>Hoogste maandrecord</span>
+                        <strong id="monthRecord">0</strong>
+                    </div>
+
+                    <div class="statRow">
+                        <span>Gemiddeld per kalenderdag</span>
+                        <strong id="averageDay">0</strong>
+                    </div>
+
+                    <div class="statRow">
+                        <span>Meest getelde stad</span>
+                        <strong id="favoriteCity">Onbekend</strong>
+                    </div>
+
+                    <div class="statRow">
+                        <span>Aantal dagen geteld</span>
+                        <strong id="activeDays">0</strong>
+                    </div>
+                </article>
+
+                <!-- Gemiddelden per weekdag -->
+                <article>
+                    <h2>Gemiddeld aantal per weekdag</h2>
+                    <div id="weekdayStats"></div>
+                </article>
+
+                <!-- Bestaande grafiek -->
+                <article>
+                    <h2>Afgelopen 7 dagen</h2>
+                    <div id="chart" class="chart"></div>
+                    <p id="record"></p>
+                </article>
+
+                <!-- Stadsstatistieken -->
+                <article>
+                    <h2>📍 Fatbikes per stad</h2>
+
+                    <p>Verschillende bekende steden:
+                        <strong id="cityCount">0</strong>
+                    </p>
+
+                    <div id="cityStats"></div>
+                </article>
+
+
+<!-- V2.6D - Stedenkaart -->
+
+<article id="cityMapPanel">
+
+    <h2>🗺️ Jouw fatbikekaart</h2>
+
+    <p>Ontdek waar jij allemaal fatbikes hebt gespot.</p>
+
+    <button id="loadCityMap" class="small">
+        Kaart laden
+    </button>
+
+    <div id="cityMap" hidden></div>
+
+    <p id="cityMapStatus" aria-live="polite"></p>
+
+    <div class="tiles mapTiles">
+
+        <div class="mapStat">
+
+            <p>Steden op de kaart</p>
+
+            <strong id="mappedCities">0</strong>
+
+        </div>
+
+        <div class="mapStat">
+
+            <p>Fatbikes op de kaart</p>
+
+            <strong id="mappedFatbikes">0</strong>
+
+        </div>
+
+    </div>
+
+    <button id="resetMapView" class="small" hidden>
+        ↻ Alle steden tonen
+    </button>
+
+    <p class="mapPrivacy">
+        De kaart toont alleen algemene locaties van steden,
+        geen exacte registratielocaties.
+    </p>
+
+</article>
+
+<!-- Einde V2.6D - Stedenkaart -->
+
+
+
+            </section>
+
+            
+<!-- V2.5 - Vergelijkingspagina -->
+<section id="compare" hidden>
+
+    <div class="compareHeader">
+        <h2>🏆 Onderlinge competitie</h2>
+
+        <button id="compareSettings"
+                class="small"
+                aria-label="Vergelijkingsinstellingen">
+            ⚙️
+        </button>
+    </div>
+
+    <!-- Persoonlijke namen instellen -->
+    <article id="compareSettingsPanel" hidden>
+
+        <h2>Vergelijkingsinstellingen</h2>
+
+        <form id="compareNamesForm">
+
+            <label>Jouw naam op deze pagina
+                <input id="compareSelfName"
+                       type="text"
+                       maxlength="40"
+                       placeholder="Bijvoorbeeld Bob">
+            </label>
+
+            <label>Naam van je tegenstander
+                <input id="compareOpponentName"
+                       type="text"
+                       maxlength="40"
+                       placeholder="Bijvoorbeeld Anna">
+            </label>
+
+            <button id="saveCompareNames"
+                    class="primary">
+                Namen opslaan
+            </button>
+
+            <button id="closeCompareSettings"
+                    type="button"
+                    class="small">
+                Sluiten
+            </button>
+
+        </form>
+
+    </article>
+
+    <p id="compareStatus" role="status"
+       aria-live="polite"></p>
+
+    <div id="compareContent" hidden>
+
+        <!-- Beide deelnemers -->
+        <div class="tiles comparePlayers">
+
+            <article class="selfPlayer">
+                <span class="playerIcon">👤</span>
+                <h2 id="selfPlayerName">Jij</h2>
+                <strong id="selfTotal">0</strong>
+                <p>All-time</p>
+            </article>
+
+            <article class="opponentPlayer">
+                <span class="playerIcon">👤</span>
+                <h2 id="opponentPlayerName">
+                    Tegenstander
+                </h2>
+                <strong id="opponentTotal">0</strong>
+                <p>All-time</p>
+            </article>
+
+        </div>
+
+        <!-- Onderlinge statistieken -->
+        <article>
+
+            <h2>Onderlinge statistieken</h2>
+
+            <div class="compareLegend">
+                <strong id="selfLegend">Jij</strong>
+                <strong id="opponentLegend">
+                    Tegenstander
+                </strong>
+            </div>
+
+            <div id="comparisonStats"></div>
+
+        </article>
+
+        <!-- Vergelijking per stad -->
+        <article>
+
+            <h2>📍 Vergelijking per stad</h2>
+
+            <div class="compareLegend">
+                <strong id="selfCityLegend">Jij</strong>
+                <strong id="opponentCityLegend">
+                    Tegenstander
+                </strong>
+            </div>
+
+            <div id="comparisonCities"></div>
+
+        </article>
+
+        <!-- Gezamenlijk resultaat -->
+        <article class="combinedTotal">
+
+            <p>Samen gespot</p>
+
+            <strong id="combinedTotal">0</strong>
+
+            <p>Fatbikes 🚲</p>
+
+        </article>
+
+    </div>
+
+    <button id="refreshComparison" class="small">
+        ↻ Statistieken vernieuwen
+    </button>
+
+</section>
+<!-- V2.6A - Achievements -->
+<article id="achievementsPanel" hidden>
+
+<!-- V2.6B - Streaks -->
+
+<div id="streakPanel">
+
+    <h2>🔥 Jouw streaks</h2>
+
+    <div class="tiles streakTiles">
+
+        <div class="streakCard currentStreakCard">
+
+            <p>Huidige streak</p>
+
+            <span class="streakIcon">🔥</span>
+
+            <strong id="currentStreak">0</strong>
+
+            <p>Dagen achter elkaar</p>
+
+        </div>
+
+        <div class="streakCard longestStreakCard">
+
+            <p>Langste streak</p>
+
+            <span class="streakIcon">🏆</span>
+
+            <strong id="longestStreak">0</strong>
+
+            <p>Persoonlijk record</p>
+
+        </div>
+
+    </div>
+
+    <div class="streakWeekPanel">
+
+        <h3>Afgelopen 7 dagen</h3>
+
+        <div id="streakWeek"></div>
+
+        <p id="streakStatus"></p>
+
+    </div>
+
+    <div id="streakMilestonePanel">
+
+        <h3>Volgende mijlpaal</h3>
+
+        <div class="streakMilestoneHeading">
+
+            <span id="streakMilestoneName">
+                3 dagen achter elkaar
+            </span>
+
+            <strong id="streakMilestoneCount">
+                0 / 3
+            </strong>
+
+        </div>
+
+        <div class="streakMilestoneTrack">
+
+            <div id="streakMilestoneBar"></div>
+
+        </div>
+
+        <p id="streakMilestoneMessage"></p>
+
+    </div>
+
+</div>
+
+<!-- Einde V2.6B - Streaks -->
+
+    <h2>🏅 Achievements</h2>
+
+    <div class="achievementSummary">
+
+        <span>Vrijgespeelde prestaties</span>
+
+        <strong id="achievementCount">0 / 16</strong>
+
+    </div>
+
+    <div class="achievementProgress">
+        <div id="achievementProgressBar"></div>
+    </div>
+
+    <div class="achievementFilters">
+
+        <button data-achievement-filter="all"
+                class="active">
+            Alle
+        </button>
+
+        <button data-achievement-filter="done">
+            Behaald
+        </button>
+
+        <button data-achievement-filter="locked">
+            Vergrendeld
+        </button>
+
+    </div>
+
+    <div id="achievementList"
+         class="achievementGrid">
+    </div>
+
+</article>
+            <!-- Historiepagina -->
+            <article id="history" hidden>
+
+<!-- V2.6C - Kalender -->
+
+<div id="calendarPanel">
+
+    <h2>📅 Jouw kalender</h2>
+
+    <div class="calendarHeader">
+
+        <button id="calendarPrevious"
+                class="small"
+                aria-label="Vorige maand">
+            ❮
+        </button>
+
+        <h3 id="calendarMonth"></h3>
+
+        <button id="calendarNext"
+                class="small"
+                aria-label="Volgende maand">
+            ❯
+        </button>
+
+    </div>
+
+    <button id="calendarToday" class="small">
+        Terug naar huidige maand
+    </button>
+
+    <div class="calendarWeekdays">
+        <span>Ma</span>
+        <span>Di</span>
+        <span>Wo</span>
+        <span>Do</span>
+        <span>Vr</span>
+        <span>Za</span>
+        <span>Zo</span>
+    </div>
+
+    <div id="calendarGrid"></div>
+
+    <div class="calendarLegend">
+        <span>Weinig</span>
+        <span class="calendarColor level0"></span>
+        <span class="calendarColor level1"></span>
+        <span class="calendarColor level2"></span>
+        <span class="calendarColor level3"></span>
+        <span class="calendarColor level4"></span>
+        <span>Veel</span>
+    </div>
+
+    <div class="tiles calendarTiles">
+
+        <div class="calendarStat">
+            <p>Totaal deze maand</p>
+            <strong id="calendarTotal">0</strong>
+        </div>
+
+        <div class="calendarStat">
+            <p>Actieve teldagen</p>
+            <strong id="calendarActiveDays">0</strong>
+        </div>
+
+    </div>
+
+    <div class="calendarStat calendarRecord">
+        <p>Dagrecord deze maand</p>
+        <strong id="calendarRecord">0</strong>
+    </div>
+
+    <div id="calendarDetails" hidden>
+
+        <h3 id="calendarSelectedDate"></h3>
+
+        <strong id="calendarSelectedCount"></strong>
+
+        <div id="calendarSelectedEntries"></div>
+
+    </div>
+
+</div>
+
+<!-- Einde V2.6C - Kalender -->
+
+
+                <h2>Recente registraties</h2>
+                <ul id="entries"></ul>
+
+                <button id="more" class="small" hidden>
+                    Meer tonen
+                </button>
+            </article>
+
+            <!-- Navigatie -->
+            
+        <nav>
+    <button data-tab="home" class="active">
+        <span>⌂</span>
+        Home
+    </button>
+
+    <button data-tab="stats">
+        <span>▥</span>
+        Statistieken
+    </button>
+
+    <button data-tab="compare">
+        <span>🏆</span>
+        Vergelijken
+    </button>
+
+    <button data-tab="achievements">
+        <span>🏅</span>
+        Achievements
+    </button>
+
+    <button data-tab="history">
+        <span>◷</span>
+        Historie
+    </button>
+</nav>
+
+
+        </section>
+
+        <p id="status" role="status" aria-live="polite"></p>
+
+    </main>
+</body>
+</html>
